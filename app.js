@@ -67,12 +67,6 @@ passport.deserializeUser(async function (id, done) {
 app.use(passport.initialize());
 app.use(passport.session());
 
-// pass current user to all views
-app.use((req, res, next) => {
-  res.locals.currentUser = req.user;
-  next();
-});
-
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -84,6 +78,12 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(expressLayouts);
+
+// pass current user to all views
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
 
 app.use("/", indexRouter);
 

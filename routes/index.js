@@ -7,7 +7,7 @@ const User = require("../models/user");
 
 /* GET home page. */
 router.get("/", (req, res, next) => {
-  res.render("index", { title: "Express" });
+  res.render("posts", { title: "Express" });
 });
 
 router.get("/sign-up", (req, res, next) => {
@@ -85,15 +85,14 @@ router.get("/login", (req, res, next) => {
 
 router.post(
   "/login",
-  // body("username", "Username is required").trim().isLength({ min: 1 }).escape(),
-  // body("password", "Password is required").trim().isLength({ min: 1 }).escape(),
-  // (req, res, next) => {
-  //   console.log("login post"), console.log(req.body);
   passport.authenticate("local", {
-    successRedirect: "/posts",
-    failureRedirect: "/",
-  })
-  // }
+    failureRedirect: "/login",
+    failureMessage: true,
+  }),
+  (req, res, next) => {
+    console.log(req.user);
+    res.redirect("/posts");
+  }
 );
 
 router.get("/posts", (req, res, next) => {

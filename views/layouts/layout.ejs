@@ -4,9 +4,19 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title><%= locals.title || '' %></title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Ubuntu&display=swap"
+      rel="stylesheet"
+    />
   </head>
-  <%- include('../partials/header.ejs') %>
-  <body>
-    <main><%- body%></main>
-  </body>
+  <div class="wrapper">
+    <%- include('../partials/header.ejs') %>
+    <body>
+      <div class="body-wrapper">
+        <main><%- body%></main>
+      </div>
+    </body>
+  </div>
 </html>

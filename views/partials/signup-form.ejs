@@ -1,26 +1,28 @@
-<div id="form-container">
+<div class="form-container">
   <h2>Sign Up</h2>
   <form action="/sign-up" method="post">
-    <div>
+    <div class="form-group">
       <label for="firstName">First Name: </label>
       <input type="text" id="firstName" name="firstName" />
     </div>
-    <div>
+    <div class="form-group">
       <label for="lastName">Last Name: </label>
       <input type="text" id="lastName" name="lastName" />
     </div>
-    <div>
-      <label for="username"> Choose a username: </label>
+    <div class="form-group">
+      <label for="username"> Username: </label>
       <input type="text" id="userName" name="username" />
     </div>
-    <div>
-      <label for="password"> Choose a password: </label>
+    <div class="form-group">
+      <label for="password"> Password: </label>
       <input type="password" id="password" name="password" />
     </div>
-    <div>
+    <div class="form-group">
       <label for="password"> Confirm password: </label>
       <input type="password" id="passwordConfirm" name="passwordConfirm" />
     </div>
-    <button type="submit">Sign Up</button>
+    <div id="submit-container">
+      <button type="submit">Sign Up</button>
+    </div>
   </form>
 </div>
