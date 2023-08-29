@@ -4,6 +4,11 @@ var path = require("path");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 const expressLayouts = require("express-ejs-layouts");
+const session = require("express-session");
+const passport = require("passport");
+const LocalStrategy = require("passport-local").Strategy;
+const bcrypt = require("bcryptjs");
+const User = require("./models/user");
 
 var indexRouter = require("./routes/index");
 
@@ -17,6 +22,56 @@ main().catch((err) => console.error(err));
 async function main() {
   await mongoose.connect(mongoDB);
 }
+
+// configure express session
+app.use(
+  session({
+    secret: process.env.SESSION_SECRET || "cats",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
+
+// passport local strategy configuration
+passport.use(
+  new LocalStrategy(async (username, password, done) => {
+    try {
+      const user = await User.findOne({ username: username });
+      if (!user) {
+        return done(null, false, { message: "Incorrect username" });
+      }
+      const match = await bcrypt.compare(password, user.password);
+      if (!match) {
+        return done(null, false, { message: "Incorrect password" });
+      }
+      return done(null, user);
+    } catch (err) {
+      return done(err);
+    }
+  })
+);
+
+passport.serializeUser(async function (user, done) {
+  done(null, user.id);
+});
+
+passport.deserializeUser(async function (id, done) {
+  try {
+    const user = User.findById(id);
+    return done(null, user);
+  } catch (err) {
+    done(err);
+  }
+});
+
+app.use(passport.initialize());
+app.use(passport.session());
+
+// pass current user to all views
+app.use((req, res, next) => {
+  res.locals.currentUser = req.user;
+  next();
+});
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
