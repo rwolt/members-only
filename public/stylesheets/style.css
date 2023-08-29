@@ -124,3 +124,39 @@ button:hover {
 .banner button {
   margin-top: 0.5rem;
 }
+
+.feed-container {
+  padding-top: 2rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* .feed-container button {
+  background-color: var(--gold);
+  color: var(--purple);
+}
+
+.feed-container button:hover {
+  color: var(--gold);
+  background-color: var(--purple);
+} */
+
+#message-form p {
+  margin-bottom: 1rem;
+}
+
+#message-form .form-group {
+  align-items: flex-start;
+}
+
+#message-form textarea,
+#message-form input {
+  width: 80%;
+  font-size: 1.25rem;
+}
+
+#message-form textarea {
+  resize: none;
+  height: 25ch;
+}

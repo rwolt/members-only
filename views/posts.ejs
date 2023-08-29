@@ -6,6 +6,7 @@
   </head>
   <body>
     <% if (currentUser && currentUser.membershipStatus === 'guest') { %> <%-
-    include('./partials/banner') %> <% } %>
+    include('./partials/banner') %> <% } %> <% if (currentUser) { %> <%-
+    include('./partials/feed') %> <% } %>
   </body>
 </html>

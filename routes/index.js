@@ -7,7 +7,7 @@ const User = require("../models/user");
 
 /* GET home page. */
 router.get("/", (req, res, next) => {
-  res.render("posts", { title: "Express" });
+  res.render("posts", { title: "Members Only" });
 });
 
 router.get("/sign-up", (req, res, next) => {
@@ -110,6 +110,10 @@ router.get("/posts", (req, res, next) => {
 
 router.get("/join", (req, res, next) => {
   res.render("membership", { title: "Members Only Become a Member" });
+});
+
+router.get("/message", (req, res, next) => {
+  res.render("message", { title: "Members Only New Message" });
 });
 
 module.exports = router;
