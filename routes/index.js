@@ -95,8 +95,21 @@ router.post(
   }
 );
 
+router.post("/logout", (req, res, next) => {
+  req.logout((err) => {
+    if (err) {
+      return next(err);
+    }
+    res.redirect("/");
+  });
+});
+
 router.get("/posts", (req, res, next) => {
   res.render("posts", { title: "Members Only" });
+});
+
+router.get("/join", (req, res, next) => {
+  res.render("membership", { title: "Members Only Become a Member" });
 });
 
 module.exports = router;

@@ -4,12 +4,18 @@
       <h1>Members Only</h1>
     </a>
     <div class="button-container">
+      <% if (!currentUser) { %>
       <a href="/login">
         <button class="login-button">Log In</button>
       </a>
       <a href="/sign-up">
-        <button class="sign-up-button">Sign Up</button>
+        <button class="sign-up-button">Sign Up to Post</button>
       </a>
+      <% } else { %>
+      <form id="logout-form" action="/logout" method="post">
+        <button class="logout-button">Log Out</button>
+      </form>
+      <% } %>
     </div>
   </div>
 </header>

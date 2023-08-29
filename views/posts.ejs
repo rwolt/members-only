@@ -5,8 +5,7 @@
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <h2 style="color: azure">
-      <%= currentUser ? currentUser.fullName : 'No current user' %>
-    </h2>
+    <% if (currentUser && currentUser.membershipStatus === 'guest') { %> <%-
+    include('./partials/banner') %> <% } %>
   </body>
 </html>
