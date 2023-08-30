@@ -1,6 +1,8 @@
 :root {
   --midnight-blue: #04082e;
   --midnight-blue-lighter: #001f5b;
+  --dark-purple-blue: #30055c;
+  --light-purple-blue: #48217f;
   --gold: #d4af37;
   --purple: #6a0572;
   --subtle-gray: #f5f5f5;
@@ -24,10 +26,8 @@
 
 .header-container {
   display: flex;
-  margin: 0 10%;
   justify-content: space-between;
   align-items: center;
-  padding: 0.75rem 10%;
 }
 
 .header-container > a {
@@ -36,7 +36,6 @@
 
 .header-container h1 {
   color: var(--gold);
-  font-size: 2.5rem;
 }
 
 .header-container h1:hover {
@@ -62,15 +61,10 @@ button:hover {
   display: flex;
 }
 
-.button-container button {
-  margin: 0 1rem;
-}
-
 .body-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 2rem;
 }
 
 .form-container {
@@ -78,27 +72,15 @@ button:hover {
   background-color: var(--subtle-gray);
   display: flex;
   flex-direction: column;
-  padding: 1.5rem;
   border-radius: 0.5rem;
-}
-
-.form-container > h2 {
-  margin-bottom: 1rem;
 }
 
 .form-group {
   display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 0.5rem;
-  font-size: 1.25rem;
 }
 
 .form-group > input {
-  margin-left: 40px;
   background-color: var(--subtle-gray);
-  font-size: 1.25rem;
-  padding: 0.25rem;
 }
 
 #submit-container {
@@ -115,14 +97,12 @@ button:hover {
   display: flex;
   flex-direction: column;
   align-items: center;
-}
-
-.banner .copy-text {
-  font-size: 1.75rem;
-}
-
-.banner button {
-  margin-top: 0.5rem;
+  background: linear-gradient(
+    to bottom,
+    var(--light-purple-blue) 10%,
+    var(--dark-purple-blue) 80%
+  );
+  color: var(--subtle-gray);
 }
 
 .feed-container {
@@ -142,21 +122,201 @@ button:hover {
   background-color: var(--purple);
 } */
 
-#message-form p {
-  margin-bottom: 1rem;
-}
-
-#message-form .form-group {
-  align-items: flex-start;
-}
-
-#message-form textarea,
-#message-form input {
-  width: 80%;
-  font-size: 1.25rem;
-}
-
 #message-form textarea {
   resize: none;
   height: 25ch;
+}
+
+@media screen and (min-width: 300px) {
+  .body-wrapper {
+    margin-top: 0.5rem;
+  }
+
+  .header-container {
+    flex-direction: column;
+    padding: 0.5rem 0;
+  }
+
+  .header-container h1 {
+    font-size: 1.75rem;
+    margin-bottom: 0.25rem;
+  }
+
+  button {
+    font-size: 1rem;
+  }
+
+  .button-container button {
+    margin: 0 0.25rem;
+  }
+
+  .form-container {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    max-width: 100vw;
+    margin: 5%;
+  }
+
+  .form-container > h2 {
+    margin-bottom: 1rem;
+    text-align: center;
+  }
+
+  .form-group {
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0.25rem;
+    font-size: 1rem;
+  }
+
+  .form-group > input {
+    max-width: 100%;
+    padding: 0.25rem;
+    font-size: 1rem;
+  }
+
+  .banner {
+    padding: 1rem;
+    border-radius: 0.5rem;
+    max-width: 90vw;
+    margin: 0 auto;
+  }
+
+  .banner .copy-text {
+    font-size: 1rem;
+    text-align: center;
+  }
+
+  .banner button {
+    margin-top: 0.5rem;
+  }
+
+  #submit-container {
+    justify-content: center;
+  }
+
+  #message-form textarea,
+  #message-form input {
+    width: 100%;
+    font-size: 1rem;
+  }
+
+  #message-form p {
+    text-align: center;
+    margin-bottom: 1rem;
+  }
+
+  #invite-code {
+    width: 100%;
+    margin-bottom: 1rem;
+  }
+
+  .header-container h1 {
+    font-size: 2rem;
+  }
+
+  .form-container {
+    padding: 1.5rem;
+  }
+
+  #submit-container {
+    justify-content: center;
+  }
+}
+
+@media screen and (min-width: 768px) {
+  .body-wrapper {
+    margin-top: 2rem;
+  }
+
+  .header-container {
+    margin: 0 5%;
+    padding: 0.5rem 5%;
+    flex-direction: row;
+  }
+
+  .header-container h1 {
+    font-size: 2.25rem;
+    margin-bottom: 0;
+  }
+
+  button {
+    font-size: 1.25rem;
+  }
+
+  .button-container button {
+    margin: 0 1rem;
+  }
+
+  .form-container {
+    margin: 0;
+  }
+
+  .form-container h2 {
+    text-align: inherit;
+  }
+
+  .form-group {
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem;
+    font-size: 1.25rem;
+  }
+
+  .form-group > input {
+    margin-left: 40px;
+  }
+
+  .banner {
+    padding: 1.5rem;
+    margin: 0;
+  }
+
+  .banner .copy-text {
+    text-align: inherit;
+    font-size: 1.75rem;
+  }
+
+  #submit-container {
+    justify-content: flex-end;
+  }
+
+  #message-form .form-group {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  #message-form textarea,
+  #message-form input {
+    font-size: 1.25rem;
+    margin: 0;
+  }
+
+  #invite-code {
+    width: auto;
+    margin-bottom: 0;
+    flex: 1;
+  }
+}
+
+@media screen and (min-width: 1024px) {
+  .header-container {
+    padding: 0.75rem 7.5%;
+  }
+
+  .header-container h1 {
+    font-size: 2.5rem;
+  }
+
+  .button-container button {
+    font-size: 1.25rem;
+  }
+}
+
+@media screen and (min-width: 1280px) {
+  .header-container {
+    margin: 0 10%;
+    padding: 0.75rem 10%;
+  }
 }
