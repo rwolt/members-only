@@ -3,12 +3,14 @@
   <p>Messages are anonymous to everyone, except for other members!</p>
   <form action="/message" method="post">
     <div class="form-group">
-      <label for="title">Title: </label>
-      <input type="text" id="title" name="title" />
+      <div>
+        <label for="title">Title: </label>
+      </div>
+      <input type="text" id="title" name="title" required />
     </div>
     <div class="form-group">
       <label for="text">Text: </label>
-      <textarea rows="20"></textarea>
+      <textarea rows="20" name="text" id="text" required></textarea>
     </div>
     <div id="submit-container">
       <button type="submit">Post Your Message</button>

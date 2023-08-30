@@ -13,7 +13,8 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
-  font-family: "Ubuntu", sans-serif;
+  font-family: "Roboto", sans-serif;
+  color: var(--subtle-gray);
 }
 
 .wrapper {
@@ -36,13 +37,16 @@
 
 .header-container h1 {
   color: var(--gold);
+  font-family: "Lora", serif;
+  font-weight: 600;
 }
 
 .header-container h1:hover {
   cursor: pointer;
 }
 
-button {
+button,
+#submit-container button {
   padding: 0.5rem 1rem;
   border: none;
   border-radius: 4px;
@@ -51,7 +55,8 @@ button {
   color: var(--gold);
 }
 
-button:hover {
+button:hover,
+#submit-container button:hover {
   cursor: pointer;
   background-color: var(--gold);
   color: var(--purple);
@@ -70,9 +75,14 @@ button:hover {
 .form-container {
   border: 1px solid var(--warm-gray);
   background-color: var(--subtle-gray);
+  color: black;
   display: flex;
   flex-direction: column;
   border-radius: 0.5rem;
+}
+
+.form-container * {
+  color: inherit;
 }
 
 .form-group {
