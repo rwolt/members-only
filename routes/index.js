@@ -16,6 +16,7 @@ router.get("/home", async (req, res, next) => {
     try {
       const messages = await Message.find({})
         .populate("user")
+        .limit(10)
         .sort({ timestamp: -1 });
       res.render("home", {
         title: "Members Only",
@@ -28,6 +29,7 @@ router.get("/home", async (req, res, next) => {
     try {
       const messages = await Message.find({})
         .populate("user")
+        .limit(10)
         .sort({ timestamp: -1 });
       const redactedMessages = messages.map((message) => {
         const regex = /\S/g;

@@ -89,6 +89,7 @@ exports.user_register_post = [
               isAdmin: false,
             });
             await user.save();
+
             // Login automatically after registration
             req.login(user, (err) => {
               if (!err) {

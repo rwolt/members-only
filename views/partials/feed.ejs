@@ -6,7 +6,10 @@
   <% } %> <% if (messages) { %> <% messages.forEach((message) => { %>
   <div class="card">
     <% if(currentUser && currentUser.isAdmin) { %>
-    <div class="kill-box">X</div>
+    <form action="/message/delete" method="post">
+      <input type="hidden" name="messageId" value="<%= message._id %>" />
+      <button type="submit" id="kill-button">X</button>
+    </form>
     <% } %>
     <p>Posted by <%= `${message.user.firstName} ${message.user.lastName}` %></p>
     <p>Date: <%= message.timestamp.toLocaleString() %></p>

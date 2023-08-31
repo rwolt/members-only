@@ -41,3 +41,17 @@ exports.message_create_post = [
     }
   },
 ];
+
+exports.message_delete_post = async (req, res, next) => {
+  console.log(req.body.messageId);
+  if (req.user.isAdmin) {
+    try {
+      await Message.findByIdAndDelete(req.body.messageId);
+      res.redirect("/home");
+    } catch (err) {
+      return next(err);
+    }
+  } else {
+    res.redirect("/home");
+  }
+};
