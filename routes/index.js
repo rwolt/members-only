@@ -8,7 +8,7 @@ const Message = require("../models/message");
 
 /* GET home page. */
 router.get("/", (req, res, next) => {
-  res.render("posts", { title: "Members Only" });
+  res.redirect("/posts");
 });
 
 router.get("/sign-up", (req, res, next) => {
@@ -91,7 +91,6 @@ router.post(
     failureMessage: true,
   }),
   (req, res, next) => {
-    console.log(req.user);
     res.redirect("/posts");
   }
 );
@@ -105,8 +104,45 @@ router.post("/logout", (req, res, next) => {
   });
 });
 
-router.get("/posts", (req, res, next) => {
-  res.render("posts", { title: "Members Only" });
+router.get("/posts", async (req, res, next) => {
+  if (
+    (req.isAuthenticated() && req.user.membershipStatus === "member") ||
+    req.user.isAdmin
+  ) {
+    try {
+      const messages = await Message.find({}).populate("user");
+      res.render("posts", { title: "Members Only", messages: messages });
+    } catch (err) {
+      return next(err);
+    }
+  } else if (req.isAuthenticated() && req.user.membershipStatus === "guest") {
+    try {
+      const messages = await Message.find({}).populate("user");
+      const hashedMessages = messages.map((message) => {
+        const hashedFirstName = bcrypt.hashSync(message.user.firstName, 10);
+        const hashedLastName = bcrypt.hashSync(message.user.lastName, 10);
+        const hashedTimestamp = bcrypt.hashSync(
+          message.timestamp.toString(),
+          10
+        );
+        return {
+          title: message.title,
+          text: message.text,
+          timestamp: hashedTimestamp,
+          user: {
+            firstName: hashedFirstName,
+            lastName: hashedLastName,
+          },
+        };
+      });
+      console.log(hashedMessages);
+      res.render("posts", { title: "Members Only", messages: hashedMessages });
+    } catch (err) {
+      return next(err);
+    }
+  } else {
+    res.render("posts", { title: "Members Only" });
+  }
 });
 
 router.get("/join", (req, res, next) => {
@@ -142,6 +178,7 @@ router.post(
         title: req.body.title,
         text: req.body.text,
         timestamp: timestamp,
+        user: req.user._id,
       });
       try {
         const result = await newMessage.save();

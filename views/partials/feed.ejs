@@ -2,4 +2,13 @@
   <a href="/message">
     <button>Post a Message</button>
   </a>
+
+  <% if (currentUser && messages) { %> <% messages.forEach((message) => { %>
+  <div class="card">
+    <p><%= message.user.firstName %></p>
+    <p><%= message.timestamp %></p>
+    <p><%= message.title %></p>
+    <p><%= message.text %></p>
+  </div>
+  <% }) %> <% } %>
 </div>
