@@ -25,7 +25,7 @@ async function main() {
 }
 
 const activationCodeExample = {
-  code: "TOPROCKS!",
+  code: "123",
   isValid: "true",
 };
 
@@ -33,7 +33,7 @@ const createActivationCode = async () => {
   const hashedCode = bcrypt.hashSync(activationCodeExample.code, 10);
   const hashedActivationCode = new MemberCode({
     ...activationCodeExample,
-    code: hashedCode,
+    hashedCode: hashedCode,
   });
   await hashedActivationCode.save();
   console.log("Added Activation Code: ", hashedActivationCode);

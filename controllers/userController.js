@@ -2,6 +2,7 @@ const { body, validationResult } = require("express-validator");
 const bcrypt = require("bcryptjs");
 const passport = require("passport");
 const User = require("../models/user");
+const ActivationCode = require("../models/activationCode");
 
 // USER LOGIN CONTROLLERS
 
@@ -104,4 +105,40 @@ exports.user_activate_membership_get = (req, res, next) => {
   res.render("activate-membership", {
     title: "Members Only Activate Membership",
   });
+};
+
+exports.user_activate_membership_update = async (req, res, next) => {
+  console.log("hello controller");
+  if (
+    (req.isAuthenticated() && req.user.membershipStatus === "member") ||
+    (req.isAuthenticated() && req.user.isAdmin)
+  ) {
+    const error = new Error("User is already a member");
+    return next(error);
+  }
+  const activationCode = await ActivationCode.findOne({});
+  console.log("Activation Code: ", activationCode);
+  if (!activationCode) {
+    const error = new Error("No activation code found");
+    return next(error);
+  }
+  if (!activationCode.isValid) {
+    const error = new Error("Activation code has already been used");
+    return next(error);
+  }
+  console.log("comparing codes");
+  console.log(req.body.code);
+  const match = await bcrypt.compare(req.body.code, activationCode.hashedCode);
+
+  if (!match) {
+    const error = new Error("Not a valid activation code");
+    return next(error);
+  } else {
+    await User.findByIdAndUpdate(req.user._id, {
+      membershipStatus: "member",
+    });
+
+    console.log("Membership Activated");
+    res.redirect("/home");
+  }
 };

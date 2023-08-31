@@ -18,4 +18,9 @@ router.get(
   user_controller.user_activate_membership_get
 );
 
+router.post(
+  "/activate-membership",
+  user_controller.user_activate_membership_update
+);
+
 module.exports = router;
