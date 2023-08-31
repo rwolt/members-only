@@ -37,15 +37,27 @@ router.get("/home", async (req, res, next) => {
         const redactedTimestamp = message.timestamp
           .toLocaleTimeString()
           .replace(regex, "*");
-        return {
-          title: message.title,
-          text: redactedText,
-          timestamp: redactedTimestamp,
-          user: {
-            firstName: redactedFirstName,
-            lastName: redactedLastName,
-          },
-        };
+        if (req.user) {
+          return {
+            title: message.title,
+            text: message.text,
+            timestamp: redactedTimestamp,
+            user: {
+              firstName: redactedFirstName,
+              lastName: redactedLastName,
+            },
+          };
+        } else {
+          return {
+            title: message.title,
+            text: redactedText,
+            timestamp: redactedTimestamp,
+            user: {
+              firstName: redactedFirstName,
+              lastName: redactedLastName,
+            },
+          };
+        }
       });
       res.render("home", { title: "Members Only", messages: redactedMessages });
     } catch (err) {

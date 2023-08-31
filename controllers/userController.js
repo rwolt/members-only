@@ -88,8 +88,15 @@ exports.user_register_post = [
               membershipStatus: "guest",
               isAdmin: false,
             });
-            const result = await user.save();
-            res.redirect("/");
+            await user.save();
+            // Login automatically after registration
+            req.login(user, (err) => {
+              if (!err) {
+                res.redirect("/home");
+              } else {
+                return next(err);
+              }
+            });
           } catch (err) {
             return next(err);
           }
