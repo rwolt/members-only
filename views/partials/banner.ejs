@@ -1,7 +1,17 @@
 <div class="banner">
+  <% if (currentUser) { %>
   <p class="copy-text">Want to join the club?</p>
-  <p class="copy-text">Become a member to reveal who is posting.</p>
+  <p class="copy-text">Become a member to see who is posting.</p>
   <a href="/user/activate-membership">
-    <button>Redeem Invite Code</button>
+    <button>Enter Activation Code</button>
   </a>
+  <% } else { %>
+  <p class="copy-text">Ready to dive in?</p>
+  <p class="copy-text">Messages are only visible to registered users</p>
+  <p>
+    <a href="/user/register">
+      <button>Register to Read & Post Messages</button>
+    </a>
+    <% } %>
+  </p>
 </div>

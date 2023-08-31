@@ -108,7 +108,6 @@ exports.user_activate_membership_get = (req, res, next) => {
 };
 
 exports.user_activate_membership_update = async (req, res, next) => {
-  console.log("hello controller");
   if (
     (req.isAuthenticated() && req.user.membershipStatus === "member") ||
     (req.isAuthenticated() && req.user.isAdmin)
@@ -117,7 +116,6 @@ exports.user_activate_membership_update = async (req, res, next) => {
     return next(error);
   }
   const activationCode = await ActivationCode.findOne({});
-  console.log("Activation Code: ", activationCode);
   if (!activationCode) {
     const error = new Error("No activation code found");
     return next(error);
@@ -126,10 +124,7 @@ exports.user_activate_membership_update = async (req, res, next) => {
     const error = new Error("Activation code has already been used");
     return next(error);
   }
-  console.log("comparing codes");
-  console.log(req.body.code);
   const match = await bcrypt.compare(req.body.code, activationCode.hashedCode);
-
   if (!match) {
     const error = new Error("Not a valid activation code");
     return next(error);
@@ -137,8 +132,6 @@ exports.user_activate_membership_update = async (req, res, next) => {
     await User.findByIdAndUpdate(req.user._id, {
       membershipStatus: "member",
     });
-
-    console.log("Membership Activated");
     res.redirect("/home");
   }
 };

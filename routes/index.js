@@ -1,6 +1,5 @@
 const express = require("express");
 const router = express.Router();
-const bcrypt = require("bcryptjs");
 const Message = require("../models/message");
 
 // HOME PAGE ROUTES
@@ -15,38 +14,43 @@ router.get("/home", async (req, res, next) => {
     (req.isAuthenticated() && req.user.isAdmin)
   ) {
     try {
-      const messages = await Message.find({}).populate("user");
-      res.render("home", { title: "Members Only", messages: messages });
-    } catch (err) {
-      return next(err);
-    }
-  } else if (req.isAuthenticated() && req.user.membershipStatus === "guest") {
-    try {
-      const messages = await Message.find({}).populate("user");
-      const hashedMessages = messages.map((message) => {
-        const hashedFirstName = bcrypt.hashSync(message.user.firstName, 10);
-        const hashedLastName = bcrypt.hashSync(message.user.lastName, 10);
-        const hashedTimestamp = bcrypt.hashSync(
-          message.timestamp.toString(),
-          10
-        );
-        return {
-          title: message.title,
-          text: message.text,
-          timestamp: hashedTimestamp,
-          user: {
-            firstName: hashedFirstName,
-            lastName: hashedLastName,
-          },
-        };
+      const messages = await Message.find({})
+        .populate("user")
+        .sort({ timestamp: -1 });
+      res.render("home", {
+        title: "Members Only",
+        messages: messages,
       });
-      console.log(hashedMessages);
-      res.render("home", { title: "Members Only", messages: hashedMessages });
     } catch (err) {
       return next(err);
     }
   } else {
-    res.render("home", { title: "Members Only" });
+    try {
+      const messages = await Message.find({})
+        .populate("user")
+        .sort({ timestamp: -1 });
+      const redactedMessages = messages.map((message) => {
+        const regex = /\S/g;
+        const redactedText = message.text.replace(regex, "*");
+        const redactedFirstName = message.user.firstName.replace(regex, "*");
+        const redactedLastName = message.user.lastName.replace(regex, "*");
+        const redactedTimestamp = message.timestamp
+          .toLocaleTimeString()
+          .replace(regex, "*");
+        return {
+          title: message.title,
+          text: redactedText,
+          timestamp: redactedTimestamp,
+          user: {
+            firstName: redactedFirstName,
+            lastName: redactedLastName,
+          },
+        };
+      });
+      res.render("home", { title: "Members Only", messages: redactedMessages });
+    } catch (err) {
+      return next(err);
+    }
   }
 });
 

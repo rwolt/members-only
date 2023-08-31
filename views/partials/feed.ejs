@@ -1,14 +1,17 @@
 <div class="feed-container">
+  <% if(currentUser) { %>
   <a href="/message">
-    <button>Post a Message</button>
+    <button class="post-message-button">Post a Message</button>
   </a>
-
-  <% if (currentUser && messages) { %> <% messages.forEach((message) => { %>
+  <% } %> <% if (messages) { %> <% messages.forEach((message) => { %>
   <div class="card">
-    <p><%= message.user.firstName %></p>
-    <p><%= message.timestamp %></p>
-    <p><%= message.title %></p>
-    <p><%= message.text %></p>
+    <% if(currentUser && currentUser.isAdmin) { %>
+    <div class="kill-box">X</div>
+    <% } %>
+    <p>Posted by <%= `${message.user.firstName} ${message.user.lastName}` %></p>
+    <p>Date: <%= message.timestamp.toLocaleString() %></p>
+    <p>Subject: <%= message.title %></p>
+    <p>Text: <%= message.text %></p>
   </div>
   <% }) %> <% } %>
 </div>
