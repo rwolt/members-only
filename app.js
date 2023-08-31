@@ -1,8 +1,8 @@
-var createError = require("http-errors");
-var express = require("express");
-var path = require("path");
-var cookieParser = require("cookie-parser");
-var logger = require("morgan");
+const createError = require("http-errors");
+const express = require("express");
+const path = require("path");
+const cookieParser = require("cookie-parser");
+const logger = require("morgan");
 const expressLayouts = require("express-ejs-layouts");
 const session = require("express-session");
 const passport = require("passport");
@@ -10,9 +10,11 @@ const LocalStrategy = require("passport-local").Strategy;
 const bcrypt = require("bcryptjs");
 const User = require("./models/user");
 
-var indexRouter = require("./routes/index");
+const indexRouter = require("./routes/index");
+const messageRouter = require("./routes/message");
+const userRouter = require("./routes/user");
 
-var app = express();
+const app = express();
 
 // set up mongoose connection
 const mongoose = require("mongoose");
@@ -86,6 +88,8 @@ app.use((req, res, next) => {
 });
 
 app.use("/", indexRouter);
+app.use("/user", userRouter);
+app.use("/message", messageRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

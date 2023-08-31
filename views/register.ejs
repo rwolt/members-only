@@ -1,11 +1,12 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title><%= title ? title : ''%></title>
+    <title><%= title || '' %></title>
     <link rel="stylesheet" href="/stylesheets/style.css" />
   </head>
   <body>
-    <%-include('./partials/invite-form.ejs') %> <% if (locals.errors) { %>
+    <%- include('./partials/registration-form.ejs') %> <% if (locals.errors) {
+    %>
     <ul>
       <% for (let error of locals.errors) { %>
       <li><%= error.msg %></li>

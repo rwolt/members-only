@@ -5,14 +5,14 @@
     </a>
     <div class="button-container">
       <% if (!currentUser) { %>
-      <a href="/login">
+      <a href="/user/login">
         <button class="login-button">Log In</button>
       </a>
-      <a href="/sign-up">
+      <a href="/user/register">
         <button class="sign-up-button">Sign Up to Post</button>
       </a>
       <% } else { %>
-      <form id="logout-form" action="/logout" method="post">
+      <form id="logout-form" action="/user/logout" method="post">
         <button class="logout-button">Log Out</button>
       </form>
       <% } %>
