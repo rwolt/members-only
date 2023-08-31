@@ -19,20 +19,33 @@ async function main() {
   console.log("Debug: About to connect");
   await mongoose.connect(mongoDB);
   console.log("Debug: Should be connected?");
-  await createActivationCode();
+  await createActivationCodes();
   console.log("Debug: Closing mongoose");
   mongoose.connection.close();
 }
 
-const activationCodeExample = {
-  code: "123",
+const memberActivationCodeExample = {
+  accessType: "member",
+  code: "TOPRocks!",
   isValid: "true",
 };
 
-const createActivationCode = async () => {
-  const hashedCode = bcrypt.hashSync(activationCodeExample.code, 10);
+const adminActivationCodeExample = {
+  accessType: "admin",
+  code: "greentea123",
+  isValid: "true",
+};
+
+const createActivationCodes = async () => {
+  console.log("Creating activation codes");
+  await createActivationCode(memberActivationCodeExample);
+  await createActivationCode(adminActivationCodeExample);
+};
+
+const createActivationCode = async (activationCode) => {
+  const hashedCode = bcrypt.hashSync(activationCode.code, 10);
   const hashedActivationCode = new MemberCode({
-    ...activationCodeExample,
+    ...activationCode,
     hashedCode: hashedCode,
   });
   await hashedActivationCode.save();

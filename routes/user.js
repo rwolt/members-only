@@ -23,4 +23,8 @@ router.post(
   user_controller.user_activate_membership_update
 );
 
+router.get("/admin", user_controller.user_admin_get);
+
+router.post("/admin", user_controller.user_admin_post);
+
 module.exports = router;

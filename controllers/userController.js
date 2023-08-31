@@ -12,7 +12,7 @@ exports.user_login_get = (req, res, next) => {
 
 exports.user_login_post = [
   passport.authenticate("local", {
-    failureRedirect: "/login",
+    failureRedirect: "/users/login",
     failureMessage: true,
   }),
   (req, res, next) => {
@@ -115,7 +115,10 @@ exports.user_activate_membership_update = async (req, res, next) => {
     const error = new Error("User is already a member");
     return next(error);
   }
-  const activationCode = await ActivationCode.findOne({});
+  const activationCode = await ActivationCode.findOne({
+    accessType: "member",
+  });
+  console.log(activationCode);
   if (!activationCode) {
     const error = new Error("No activation code found");
     return next(error);
@@ -133,5 +136,50 @@ exports.user_activate_membership_update = async (req, res, next) => {
       membershipStatus: "member",
     });
     res.redirect("/home");
+  }
+};
+
+// USER ADMIN ACCESS CONTROLLERS
+
+exports.user_admin_get = (req, res, next) => {
+  if (req.isAuthenticated()) {
+    res.render("admin", { title: "Members Only Admin" });
+  } else {
+    res.redirect("/home");
+  }
+};
+
+exports.user_admin_post = async (req, res, next) => {
+  if (!req.isAuthenticated() || !req.user.membershipStatus === "member") {
+    res.redirect("/");
+  } else {
+    const activationCode = await ActivationCode.findOne({
+      accessType: "admin",
+    });
+    if (!activationCode) {
+      const error = new Error("Access code does not exist");
+      return next(error);
+    }
+    if (!activationCode.isValid) {
+      const error = new Error("Access code is no longer valid");
+      return next(error);
+    }
+    const match = await bcrypt.compare(
+      req.body.code,
+      activationCode.hashedCode
+    );
+    if (!match) {
+      const error = new Error("Access code does not match");
+      return next(error);
+    } else {
+      try {
+        await User.findByIdAndUpdate(req.user._id, {
+          isAdmin: true,
+        });
+        res.redirect("/home");
+      } catch (err) {
+        return next(err);
+      }
+    }
   }
 };

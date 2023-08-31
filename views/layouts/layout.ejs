@@ -19,5 +19,6 @@
         <main><%- body%></main>
       </div>
     </body>
+    <% if (currentUser) { %> <%- include('../partials/footer.ejs') %> <% } %>
   </div>
 </html>
