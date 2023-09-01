@@ -1,16 +1,22 @@
 <div class="form-container" id="message-form">
   <h2>Post a New Message</h2>
-  <p>Messages are anonymous to everyone, except for other members!</p>
+  <p>Messages are anonymous to everyone, except for members!</p>
   <form action="/message" method="post">
     <div class="form-group">
       <div>
         <label for="title">Title: </label>
       </div>
-      <input type="text" id="title" name="title" required />
+      <input type="text" maxLength="100" id="title" name="title" required />
     </div>
     <div class="form-group">
       <label for="text">Text: </label>
-      <textarea rows="20" name="text" id="text" required></textarea>
+      <textarea
+        rows="20"
+        maxlength="480"
+        name="text"
+        id="text"
+        required
+      ></textarea>
     </div>
     <div id="submit-container">
       <button type="submit">Post Your Message</button>

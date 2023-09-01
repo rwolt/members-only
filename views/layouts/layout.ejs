@@ -12,13 +12,13 @@
     />
     <link rel="stylesheet" href="/stylesheets/style.css" type="text/css" />
   </head>
-  <div class="wrapper">
-    <%- include('../partials/header.ejs') %>
-    <body>
-      <div class="body-wrapper">
-        <main><%- body%></main>
-      </div>
-    </body>
-    <% if (currentUser) { %> <%- include('../partials/footer.ejs') %> <% } %>
-  </div>
+  <body>
+    <div class="wrapper">
+      <%- include('../partials/header.ejs') %>
+      <main>
+        <div class="body-wrapper"><%- body%></div>
+      </main>
+    </div>
+    <%- include('../partials/footer.ejs') %>
+  </body>
 </html>
